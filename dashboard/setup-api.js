@@ -444,6 +444,122 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // Get settings config (API keys - masked)
+  if (url.pathname === '/api/settings/config' && req.method === 'GET') {
+    try {
+      const envContent = await fs.readFile(ENV_FILE, 'utf8');
+      const config = {};
+      
+      // Parse .env and mask keys
+      envContent.split('\n').forEach(line => {
+        if (line.startsWith('OPENAI_API_KEY=')) {
+          const val = line.split('=')[1];
+          config.openai_key = val ? '****' + val.slice(-4) : '';
+        } else if (line.startsWith('HA_URL=')) {
+          config.ha_url = line.split('=')[1];
+        } else if (line.startsWith('HA_TOKEN=')) {
+          const val = line.split('=')[1];
+          config.ha_token = val ? '****' + val.slice(-4) : '';
+        } else if (line.startsWith('ELEVENLABS_API_KEY=')) {
+          const val = line.split('=')[1];
+          config.elevenlabs_key = val ? '****' + val.slice(-4) : '';
+        }
+      });
+      
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(config));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: err.message }));
+    }
+    return;
+  }
+
+  // Save settings config (API keys)
+  if (url.pathname === '/api/settings/config' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const config = JSON.parse(body);
+        
+        // Only update if not masked
+        const updates = {};
+        if (config.openai_key && !config.openai_key.startsWith('****')) {
+          updates.OPENAI_API_KEY = config.openai_key;
+        }
+        if (config.ha_url) {
+          updates.HA_URL = config.ha_url;
+        }
+        if (config.ha_token && !config.ha_token.startsWith('****')) {
+          updates.HA_TOKEN = config.ha_token;
+        }
+        if (config.elevenlabs_key && !config.elevenlabs_key.startsWith('****')) {
+          updates.ELEVENLABS_API_KEY = config.elevenlabs_key;
+        }
+        
+        // Read existing .env
+        let envContent = '';
+        try {
+          envContent = await fs.readFile(ENV_FILE, 'utf8');
+        } catch {
+          envContent = '# HomeNest Configuration\n';
+        }
+        
+        // Update values
+        for (const [key, value] of Object.entries(updates)) {
+          const regex = new RegExp(`^${key}=.*$`, 'm');
+          if (regex.test(envContent)) {
+            envContent = envContent.replace(regex, `${key}=${value}`);
+          } else {
+            envContent += `\n${key}=${value}`;
+          }
+        }
+        
+        await fs.writeFile(ENV_FILE, envContent);
+        
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
+    });
+    return;
+  }
+
+  // Get profiles
+  if (url.pathname === '/api/settings/profiles' && req.method === 'GET') {
+    try {
+      const profiles = await readJSON(path.join(CONFIG_DIR, 'profiles.json'), {});
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(profiles));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: err.message }));
+    }
+    return;
+  }
+
+  // Save profiles
+  if (url.pathname === '/api/settings/profiles' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const profiles = JSON.parse(body);
+        await writeJSON(path.join(CONFIG_DIR, 'profiles.json'), profiles);
+        
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
+    });
+    return;
+  }
+
   // 404
   res.writeHead(404);
   res.end('Not found');
