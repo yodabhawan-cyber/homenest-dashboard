@@ -277,6 +277,51 @@ async function saveProfiles(familyMembers, configDir) {
   return profiles;
 }
 
+// Merge agent configs into OpenClaw config
+async function mergeOpenClawConfig(agentConfigs) {
+  const openclawConfigPath = path.join(process.env.HOME, '.openclaw', 'openclaw.json');
+  
+  try {
+    // Read existing config
+    const config = await readJSON(openclawConfigPath);
+    
+    if (!config.agents) {
+      config.agents = {};
+    }
+    if (!config.agents.list) {
+      config.agents.list = [];
+    }
+    
+    // Remove any existing HomeNest agents (by matching workspace path)
+    config.agents.list = config.agents.list.filter(agent => 
+      !agent.workspace || !agent.workspace.includes('/homenest/agents/')
+    );
+    
+    // Add new agents
+    config.agents.list.push(...agentConfigs);
+    
+    // Write back
+    await fs.writeFile(openclawConfigPath, JSON.stringify(config, null, 2));
+    
+    return true;
+  } catch (err) {
+    console.error('Failed to merge OpenClaw config:', err);
+    return false;
+  }
+}
+
+// Restart OpenClaw Gateway
+async function restartOpenClawGateway() {
+  try {
+    const { exec } = require('child_process');
+    await execAsync('openclaw gateway restart');
+    return true;
+  } catch (err) {
+    console.error('Failed to restart OpenClaw Gateway:', err);
+    return false;
+  }
+}
+
 // HTTP Server
 const server = http.createServer(async (req, res) => {
   // CORS
@@ -343,28 +388,52 @@ const server = http.createServer(async (req, res) => {
         // 3. Save profiles.json
         await saveProfiles(config.family_members, CONFIG_DIR);
         
-        // 4. Mark setup as complete
+        // 4. Merge into OpenClaw config & restart
+        const mergeSuccess = await mergeOpenClawConfig(agentConfigs);
+        const restartSuccess = mergeSuccess ? await restartOpenClawGateway() : false;
+        
+        // 5. Mark setup as complete
         await writeJSON(SETUP_FILE, {
           setup_complete: true,
           completed_at: new Date().toISOString(),
-          family_members: config.family_members.length
+          family_members: config.family_members.length,
+          openclaw_merged: mergeSuccess,
+          gateway_restarted: restartSuccess
         });
         
-        // 5. Save OpenClaw agent config to file for user to add
+        // 6. Save backup config file (for reference)
         const openclawConfigPath = path.join(BASE_DIR, '..', 'openclaw-agents-config.json');
         await writeJSON(openclawConfigPath, { agents: { list: agentConfigs } });
+        
+        const nextSteps = [
+          'Agents created in agents/ directory',
+          'Profiles saved to config/profiles.json',
+          '.env file created with API keys'
+        ];
+        
+        if (mergeSuccess) {
+          nextSteps.push('✅ OpenClaw config auto-merged');
+        } else {
+          nextSteps.push(`⚠️ Manually add agents from ${openclawConfigPath} to ~/.openclaw/openclaw.json`);
+        }
+        
+        if (restartSuccess) {
+          nextSteps.push('✅ OpenClaw Gateway restarted');
+        } else {
+          nextSteps.push('⚠️ Manually restart: openclaw gateway restart');
+        }
+        
+        nextSteps.push('Start voice proxy: python3 proxy_v4.py');
+        nextSteps.push('Test with: "This is [name] [PIN]"');
         
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
           success: true,
           message: 'Setup complete!',
-          openclaw_config_path: openclawConfigPath,
-          next_steps: [
-            'Agents created in agents/ directory',
-            `Add agents config from ${openclawConfigPath} to ~/.openclaw/openclaw.json`,
-            'Restart OpenClaw Gateway',
-            'Start voice proxy'
-          ]
+          openclaw_merged: mergeSuccess,
+          gateway_restarted: restartSuccess,
+          backup_config_path: openclawConfigPath,
+          next_steps: nextSteps
         }));
       } catch (err) {
         console.error('Setup error:', err);
