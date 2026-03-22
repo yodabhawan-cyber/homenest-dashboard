@@ -13,6 +13,7 @@ import SmartHome from './pages/SmartHome';
 import Cameras from './pages/Cameras';
 import Rewards from './pages/Rewards';
 import Setup from './pages/Setup';
+import Test from './pages/Test';
 
 function Layout({ children }) {
   const location = useLocation();
@@ -31,6 +32,7 @@ function Layout({ children }) {
     { path: '/calendar', icon: '📅', label: 'Calendar' },
     { path: '/profiles', icon: '👥', label: 'Profiles' },
     { path: '/settings', icon: '⚙️', label: 'Settings' },
+    { path: '/test', icon: '🧪', label: 'Tests' },
   ];
 
   return (
@@ -134,6 +136,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/setup" element={<Setup />} />
+          <Route path="/test" element={<Test />} />
           <Route path="/" element={<Home />} />
           <Route path="/shopping" element={<Shopping />} />
           <Route path="/chores" element={<Chores />} />

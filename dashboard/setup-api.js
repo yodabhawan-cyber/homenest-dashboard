@@ -560,6 +560,28 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // Test endpoint: Check if file exists
+  if (url.pathname === '/api/test/file-exists' && req.method === 'GET') {
+    try {
+      const filePath = url.searchParams.get('path');
+      if (!filePath) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Missing path parameter' }));
+        return;
+      }
+      
+      const fullPath = path.join(BASE_DIR, '..', filePath);
+      const exists = await fs.access(fullPath).then(() => true).catch(() => false);
+      
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ exists, path: filePath }));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ exists: false, error: err.message }));
+    }
+    return;
+  }
+
   // 404
   res.writeHead(404);
   res.end('Not found');
