@@ -166,35 +166,39 @@ export default function Test() {
   async function testVoiceProxy() {
     const results = [];
     
-    // Test voice proxy is running
+    // Test voice proxy via backend proxy (avoid CORS)
     try {
-      const res = await fetch('http://localhost:11434/api/version');
+      const res = await fetch('/api/test/voice-proxy');
       const data = await res.json();
+      const modelCount = data.models?.length || 0;
       results.push({
         name: 'Voice Proxy (port 11434)',
-        status: res.ok ? 'passed' : 'failed',
-        message: res.ok ? `Version: ${data.version}` : 'Not responding'
+        status: data.running && modelCount > 0 ? 'passed' : 'failed',
+        message: data.running ? `Running (${modelCount} models)` : 'Not running (start: python3 proxy_v4.py)'
       });
+      
+      // Add detail about models if passed
+      if (data.running && modelCount > 0) {
+        results.push({
+          name: 'Voice Proxy Models',
+          status: 'passed',
+          message: `${modelCount} model(s) available: ${data.models.map(m => m.name).join(', ')}`
+        });
+      } else {
+        results.push({
+          name: 'Voice Proxy Models',
+          status: 'skipped',
+          message: 'Voice proxy not running'
+        });
+      }
     } catch (err) {
       results.push({
         name: 'Voice Proxy (port 11434)',
         status: 'failed',
         message: 'Not running (start: python3 proxy_v4.py)'
       });
-    }
-    
-    // Test voice proxy models endpoint
-    try {
-      const res = await fetch('http://localhost:11434/api/tags');
-      const data = await res.json();
       results.push({
-        name: 'Voice Proxy /api/tags',
-        status: res.ok ? 'passed' : 'failed',
-        message: `${data.models?.length || 0} models available`
-      });
-    } catch (err) {
-      results.push({
-        name: 'Voice Proxy /api/tags',
+        name: 'Voice Proxy Models',
         status: 'skipped',
         message: 'Voice proxy not running'
       });
@@ -232,14 +236,14 @@ export default function Test() {
   async function testHomeAssistant() {
     const results = [];
     
-    // Test HA proxy
+    // Test HA proxy via backend (avoid CORS)
     try {
-      const res = await fetch('http://localhost:3200/health');
+      const res = await fetch('/api/test/ha-proxy');
       const data = await res.json();
       results.push({
         name: 'HA API Proxy (port 3200)',
-        status: res.ok ? 'passed' : 'failed',
-        message: res.ok ? `Connected to ${data.ha_url}` : 'Not responding'
+        status: data.running ? 'passed' : 'failed',
+        message: data.running ? `Connected to ${data.ha_url}` : 'Not running (start: node dashboard/api-proxy.js)'
       });
     } catch (err) {
       results.push({
@@ -249,7 +253,7 @@ export default function Test() {
       });
     }
     
-    // Test HA connection via proxy
+    // Test HA connection via Vite proxy (already works)
     try {
       const res = await fetch('http://localhost:3200/api/states');
       const data = await res.json();
@@ -272,15 +276,14 @@ export default function Test() {
   async function testOpenClaw() {
     const results = [];
     
-    // Test OpenClaw Gateway health
+    // Test OpenClaw Gateway via backend proxy (avoid CORS)
     try {
-      const res = await fetch('http://localhost:18789/health', {
-        headers: { 'Authorization': 'Bearer 18bddb5ebcc454bfe5440476b7f498eb64fe4bb6a7d6279c' }
-      });
+      const res = await fetch('/api/test/openclaw');
+      const data = await res.json();
       results.push({
         name: 'OpenClaw Gateway (port 18789)',
-        status: res.ok ? 'passed' : 'failed',
-        message: res.ok ? 'Gateway responding' : 'Not responding'
+        status: data.running ? 'passed' : 'failed',
+        message: data.running ? 'Gateway responding' : 'Not running (start: openclaw gateway start)'
       });
     } catch (err) {
       results.push({
@@ -290,23 +293,22 @@ export default function Test() {
       });
     }
     
-    // Test agent availability
+    // Test agent configuration (check profiles.json)
     try {
-      const res = await fetch('http://localhost:18789/v1/models', {
-        headers: { 'Authorization': 'Bearer 18bddb5ebcc454bfe5440476b7f498eb64fe4bb6a7d6279c' }
-      });
+      const res = await fetch('/api/settings/profiles');
       const data = await res.json();
-      const agentCount = data.data?.filter(m => m.id.includes(':')).length || 0;
+      // API returns object with profile keys, not array
+      const agentCount = Object.keys(data).length;
       results.push({
-        name: 'OpenClaw Agents Loaded',
+        name: 'OpenClaw Agents Configured',
         status: agentCount >= 4 ? 'passed' : 'failed',
-        message: `${agentCount} agents available (expected 4+)`
+        message: `${agentCount} agents in profiles.json (expected 4)`
       });
     } catch (err) {
       results.push({
-        name: 'OpenClaw Agents Loaded',
-        status: 'skipped',
-        message: 'OpenClaw Gateway not running'
+        name: 'OpenClaw Agents Configured',
+        status: 'failed',
+        message: 'Could not read profiles configuration'
       });
     }
     

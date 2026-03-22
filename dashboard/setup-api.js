@@ -582,6 +582,50 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // Test proxy endpoints (avoid CORS issues)
+  if (url.pathname === '/api/test/voice-proxy' && req.method === 'GET') {
+    try {
+      const res2 = await fetch('http://localhost:11434/api/tags');
+      const data = await res2.json();
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ 
+        running: true, 
+        models: data.models || [] 
+      }));
+    } catch (err) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ running: false, error: err.message }));
+    }
+    return;
+  }
+
+  if (url.pathname === '/api/test/ha-proxy' && req.method === 'GET') {
+    try {
+      const res2 = await fetch('http://localhost:3200/health');
+      const data = await res2.json();
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ running: true, ha_url: data.ha_url }));
+    } catch (err) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ running: false, error: err.message }));
+    }
+    return;
+  }
+
+  if (url.pathname === '/api/test/openclaw' && req.method === 'GET') {
+    try {
+      const res2 = await fetch('http://localhost:18789/', {
+        headers: { 'Authorization': 'Bearer 18bddb5ebcc454bfe5440476b7f498eb64fe4bb6a7d6279c' }
+      });
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ running: res2.ok }));
+    } catch (err) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ running: false, error: err.message }));
+    }
+    return;
+  }
+
   // 404
   res.writeHead(404);
   res.end('Not found');
