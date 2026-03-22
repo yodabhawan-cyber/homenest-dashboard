@@ -1,36 +1,42 @@
 {
-  "default": {
-    "name": "Family",
-    "role": "parent",
-    "age_group": "adult",
-    "allowed_devices": "all",
-    "voice_pin": null
-  },
   "snehal": {
     "name": "Snehal",
-    "role": "parent",
+    "display_name": "Snehal",
+    "pin": "111",
     "age_group": "adult",
-    "allowed_devices": "all",
-    "voice_pin": null
+    "role": "parent",
+    "voice": "piper",
+    "restrictions": null,
+    "agent_workspace": "agents/snehal/workspace"
+  },
+  "anushka": {
+    "name": "Anushka",
+    "display_name": "Anushka",
+    "pin": "222",
+    "age_group": "adult",
+    "role": "parent",
+    "voice": "piper",
+    "restrictions": null,
+    "agent_workspace": "agents/anushka/workspace"
   },
   "ayush": {
     "name": "Ayush",
+    "display_name": "Ayush",
+    "pin": "333",
+    "age_group": "tween",
     "role": "child",
-    "age_group": "10-12",
-    "allowed_devices": ["lights", "media"],
-    "blocked_devices": ["locks", "garage", "alarm", "cameras"],
-    "screen_time_limit_min": 120,
-    "bedtime": "21:00",
-    "voice_pin": null
+    "voice": "matilda",
+    "restrictions": "moderate",
+    "agent_workspace": "agents/ayush/workspace"
   },
   "ahana": {
     "name": "Ahana",
+    "display_name": "Ahana",
+    "pin": "444",
+    "age_group": "young_child",
     "role": "child",
-    "age_group": "6-9",
-    "allowed_devices": ["lights", "media"],
-    "blocked_devices": ["locks", "garage", "alarm", "cameras"],
-    "screen_time_limit_min": 90,
-    "bedtime": "20:00",
-    "voice_pin": null
+    "voice": "charlotte",
+    "restrictions": "strict",
+    "agent_workspace": "agents/ahana/workspace"
   }
 }
