@@ -1,0 +1,9 @@
+{"events": [
+  {"date": "2026-03-21", "time": "09:00", "title": "Weekend swim class", "who": "ayush", "color": "blue"},
+  {"date": "2026-03-21", "time": "10:30", "title": "Dance class", "who": "ahana", "color": "pink"},
+  {"date": "2026-03-24", "time": "08:30", "title": "School drop-off", "who": "ayush", "color": "blue"},
+  {"date": "2026-03-24", "time": "08:30", "title": "School drop-off", "who": "ahana", "color": "pink"},
+  {"date": "2026-03-26", "time": "15:30", "title": "HeyGuru tutoring", "who": "ayush", "color": "green"},
+  {"date": "2026-03-26", "time": "17:30", "title": "HeyGuru tutoring", "who": "ahana", "color": "green"},
+  {"date": "2026-04-16", "time": "10:15", "title": "MPAC Interview", "who": "ayush", "color": "red"}
+]}

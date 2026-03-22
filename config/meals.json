@@ -1,0 +1,13 @@
+{
+  "week": "2026-03-17",
+  "plans": {
+    "monday": {"breakfast": "Cereal and fruit", "lunch": "School canteen", "dinner": "Pasta bolognese"},
+    "tuesday": {"breakfast": "Toast and eggs", "lunch": "Sandwiches", "dinner": "Chicken stir-fry"},
+    "wednesday": {"breakfast": "Oats and berries", "lunch": "School canteen", "dinner": "Fish and chips"},
+    "thursday": {"breakfast": "Cereal and fruit", "lunch": "Wraps", "dinner": "Butter chicken and rice"},
+    "friday": {"breakfast": "Pancakes", "lunch": "Sandwiches", "dinner": "Pizza night"},
+    "saturday": {"breakfast": "Big breakfast", "lunch": "Leftovers", "dinner": "BBQ"},
+    "sunday": {"breakfast": "Smoothie bowls", "lunch": "Out for lunch", "dinner": "Roast dinner"}
+  },
+  "shopping_list": ["Pasta", "Mince", "Chicken breast", "Fish fillets", "Rice", "Pizza bases", "Eggs", "Bread", "Wraps", "Berries", "Bananas", "Milk", "Cheese", "Butter chicken sauce", "Stir-fry sauce", "BBQ sausages", "Roast vegetables"]
+}

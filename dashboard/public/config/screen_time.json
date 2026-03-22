@@ -1,0 +1,4 @@
+{"kids": {
+  "ayush": {"daily_limit_min": 120, "used_today_min": 45, "weekly_log": [60, 90, 45, 75, 120, 80, 0], "devices": ["iPad", "Samsung TV"]},
+  "ahana": {"daily_limit_min": 90, "used_today_min": 30, "weekly_log": [40, 60, 30, 50, 90, 45, 0], "devices": ["iPad", "LG TV"]}
+}}

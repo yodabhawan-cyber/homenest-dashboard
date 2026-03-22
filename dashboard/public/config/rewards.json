@@ -1,0 +1,15 @@
+{
+  "rewards": [
+    {"id": "extra_screen_30", "name": "Extra 30 min screen time", "cost": 10, "emoji": "📱", "category": "screen_time"},
+    {"id": "extra_screen_60", "name": "Extra 1 hour screen time", "cost": 18, "emoji": "📱", "category": "screen_time"},
+    {"id": "movie_night", "name": "Pick the family movie", "cost": 15, "emoji": "🎬", "category": "activity"},
+    {"id": "stay_up_late", "name": "Stay up 30 min past bedtime", "cost": 12, "emoji": "🌙", "category": "bedtime"},
+    {"id": "ice_cream", "name": "Ice cream treat", "cost": 8, "emoji": "🍦", "category": "treat"},
+    {"id": "park_trip", "name": "Trip to the park", "cost": 20, "emoji": "🏞️", "category": "activity"},
+    {"id": "new_book", "name": "Choose a new book", "cost": 25, "emoji": "📚", "category": "treat"},
+    {"id": "friend_playdate", "name": "Invite a friend over", "cost": 15, "emoji": "👫", "category": "activity"},
+    {"id": "skip_chore", "name": "Skip one chore (not homework)", "cost": 10, "emoji": "🎉", "category": "chore"},
+    {"id": "dessert_first", "name": "Dessert before dinner", "cost": 5, "emoji": "🧁", "category": "treat"}
+  ],
+  "redemptions": []
+}

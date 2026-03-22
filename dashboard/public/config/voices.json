@@ -1,0 +1,31 @@
+{
+  "elevenlabs_key": "sk_358053eb0dab618b3aeefebf3be83f2a67b480ac9c3c092f",
+  "default_engine": "piper",
+  "room_voices": {
+    "ahana_bedroom": {
+      "engine": "elevenlabs",
+      "voice_id": "XB0fDUnXU5powFXDhCwa",
+      "voice_name": "Charlotte (Animated)",
+      "model": "eleven_turbo_v2_5",
+      "settings": {"stability": 0.4, "similarity_boost": 0.8, "style": 0.7}
+    },
+    "kids_room": {
+      "engine": "elevenlabs",
+      "voice_id": "XrExE9yKIg1WjnnlVkGX",
+      "voice_name": "Matilda (Warm & Friendly)",
+      "model": "eleven_turbo_v2_5",
+      "settings": {"stability": 0.5, "similarity_boost": 0.75, "style": 0.6}
+    },
+    "default": {
+      "engine": "piper",
+      "voice": "en_US-lessac-medium",
+      "note": "Fast, free, local — used for all rooms without a custom voice"
+    }
+  },
+  "available_voices": {
+    "rachel": {"id": "21m00Tcm4TlvDq8ikWAM", "desc": "Warm female, default"},
+    "bella": {"id": "EXAVITQu4vr4xnSDxMaL", "desc": "Soft, young female"},
+    "charlotte": {"id": "XB0fDUnXU5powFXDhCwa", "desc": "Animated, expressive — great for kids"},
+    "matilda": {"id": "XrExE9yKIg1WjnnlVkGX", "desc": "Warm, friendly"}
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "rooms": [
+    {
+      "name": "Living Room",
+      "icon": "🛋️",
+      "devices": [
+        {"id": "living_light", "name": "Main Light", "type": "light", "state": "on"},
+        {"id": "living_tv", "name": "TV", "type": "media", "state": "off"}
+      ]
+    },
+    {
+      "name": "Master Bedroom",
+      "icon": "🛏️",
+      "devices": [
+        {"id": "master_light", "name": "Bedroom Light", "type": "light", "state": "off"},
+        {"id": "master_fan", "name": "Ceiling Fan", "type": "fan", "state": "off"}
+      ]
+    },
+    {
+      "name": "Kitchen",
+      "icon": "🍳",
+      "devices": [
+        {"id": "kitchen_light", "name": "Kitchen Light", "type": "light", "state": "on"},
+        {"id": "kitchen_exhaust", "name": "Exhaust Fan", "type": "fan", "state": "off"}
+      ]
+    },
+    {
+      "name": "Ayush's Room",
+      "icon": "👦",
+      "devices": [
+        {"id": "ayush_light", "name": "Room Light", "type": "light", "state": "on"},
+        {"id": "ayush_lamp", "name": "Desk Lamp", "type": "light", "state": "on"}
+      ]
+    },
+    {
+      "name": "Ahana's Room",
+      "icon": "👧",
+      "devices": [
+        {"id": "ahana_light", "name": "Room Light", "type": "light", "state": "on"},
+        {"id": "ahana_closet", "name": "Closet Light", "type": "light", "state": "off"}
+      ]
+    },
+    {
+      "name": "Garage",
+      "icon": "🚗",
+      "devices": [
+        {"id": "garage_light", "name": "Garage Light", "type": "light", "state": "off"},
+        {"id": "garage_door", "name": "Garage Door", "type": "lock", "state": "locked"}
+      ]
+    },
+    {
+      "name": "Outdoor",
+      "icon": "🌳",
+      "devices": [
+        {"id": "backyard_left", "name": "Backyard Left Flood", "type": "light", "state": "off"},
+        {"id": "backyard_right", "name": "Backyard Right Flood", "type": "light", "state": "off"},
+        {"id": "patio_light", "name": "Patio Light", "type": "light", "state": "on"}
+      ]
+    }
+  ]
+}

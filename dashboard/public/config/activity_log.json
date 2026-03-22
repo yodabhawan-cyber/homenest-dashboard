@@ -1,0 +1,88 @@
+{
+  "entries": [
+    {
+      "timestamp": "2026-03-20T23:33:14.170966",
+      "who": "default",
+      "action": "Ayush wants to redeem stars for dessert",
+      "tier": "family"
+    },
+    {
+      "timestamp": "2026-03-20T23:33:14.144767",
+      "who": "default",
+      "action": "What can Ayush redeem his stars for?",
+      "tier": "family"
+    },
+    {
+      "timestamp": "2026-03-20T22:24:21.554530",
+      "who": "default",
+      "action": "This is Snehal",
+      "tier": "profile"
+    },
+    {
+      "timestamp": "2026-03-20T22:24:21.553625",
+      "who": "default",
+      "action": "How much homework time does Ayush have left?",
+      "tier": "homework_timer"
+    },
+    {
+      "timestamp": "2026-03-20T22:24:21.552341",
+      "who": "default",
+      "action": "Start Ayush homework timer for 30 minutes",
+      "tier": "homework_timer"
+    },
+    {
+      "timestamp": "2026-03-20T22:24:21.551375",
+      "who": "default",
+      "action": "How much screen time does Ayush have left?",
+      "tier": "screen_time"
+    },
+    {
+      "timestamp": "2026-03-20T22:24:21.550314",
+      "who": "default",
+      "action": "What is for dinner tonight?",
+      "tier": "meal"
+    },
+    {
+      "timestamp": "2026-03-20T22:24:21.549059",
+      "who": "default",
+      "action": "What is the weather like?",
+      "tier": "weather"
+    },
+    {
+      "timestamp": "2026-03-20T22:24:21.544956",
+      "who": "default",
+      "action": "Good morning",
+      "tier": "briefing"
+    },
+    {
+      "timestamp": "2026-03-20T22:00:00",
+      "who": "snehal",
+      "action": "Turned on kitchen lights",
+      "tier": "home"
+    },
+    {
+      "timestamp": "2026-03-20T21:55:00",
+      "who": "ayush",
+      "action": "Asked: What is photosynthesis?",
+      "tier": "local"
+    },
+    {
+      "timestamp": "2026-03-20T21:50:00",
+      "who": "ahana",
+      "action": "Completed: Make your bed",
+      "tier": "family"
+    },
+    {
+      "timestamp": "2026-03-20T21:45:00",
+      "who": "snehal",
+      "action": "Checked email",
+      "tier": "agent"
+    },
+    {
+      "timestamp": "2026-03-20T21:30:00",
+      "who": "ayush",
+      "action": "Asked: Explain gravity",
+      "tier": "cloud"
+    }
+  ]
+}

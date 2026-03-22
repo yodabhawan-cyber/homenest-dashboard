@@ -1,0 +1,113 @@
+{
+  "chores": [
+    {
+      "id": 1,
+      "name": "Make your bed",
+      "frequency": "daily",
+      "assigned_to": [
+        "ayush",
+        "ahana"
+      ],
+      "stars": 1,
+      "time": "morning"
+    },
+    {
+      "id": 2,
+      "name": "Pack school bag",
+      "frequency": "weekdays",
+      "assigned_to": [
+        "ayush",
+        "ahana"
+      ],
+      "stars": 1,
+      "time": "evening"
+    },
+    {
+      "id": 3,
+      "name": "Feed Arlo",
+      "frequency": "daily",
+      "assigned_to": [
+        "ayush",
+        "ahana"
+      ],
+      "alternating": true,
+      "stars": 2,
+      "time": "morning"
+    },
+    {
+      "id": 4,
+      "name": "Homework",
+      "frequency": "weekdays",
+      "assigned_to": [
+        "ayush",
+        "ahana"
+      ],
+      "stars": 2,
+      "time": "afternoon"
+    },
+    {
+      "id": 5,
+      "name": "Clean room",
+      "frequency": "weekly",
+      "day": "saturday",
+      "assigned_to": [
+        "ayush",
+        "ahana"
+      ],
+      "stars": 3,
+      "time": "morning"
+    },
+    {
+      "id": 6,
+      "name": "Set dinner table",
+      "frequency": "daily",
+      "assigned_to": [
+        "ayush",
+        "ahana"
+      ],
+      "alternating": true,
+      "stars": 1,
+      "time": "evening"
+    }
+  ],
+  "rewards": {
+    "ayush": {
+      "total_stars": 1,
+      "weekly_stars": 1,
+      "redeemed": 0
+    },
+    "ahana": {
+      "total_stars": 0,
+      "weekly_stars": 0,
+      "redeemed": 0
+    }
+  },
+  "reward_tiers": [
+    {
+      "stars": 10,
+      "reward": "30 mins extra screen time"
+    },
+    {
+      "stars": 25,
+      "reward": "Choose Friday movie"
+    },
+    {
+      "stars": 50,
+      "reward": "$10 pocket money"
+    },
+    {
+      "stars": 100,
+      "reward": "Special outing (movies, bowling, etc.)"
+    }
+  ],
+  "completions": [
+    {
+      "date": "2026-03-20",
+      "name": "ayush",
+      "chore_id": 1,
+      "chore_name": "Make your bed",
+      "stars": 1,
+      "completed_at": "2026-03-20T22:10:47.018125"
+    }
+  ]
+}

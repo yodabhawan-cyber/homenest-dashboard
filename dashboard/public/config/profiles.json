@@ -1,0 +1,36 @@
+{
+  "default": {
+    "name": "Family",
+    "role": "parent",
+    "age_group": "adult",
+    "allowed_devices": "all",
+    "voice_pin": null
+  },
+  "snehal": {
+    "name": "Snehal",
+    "role": "parent",
+    "age_group": "adult",
+    "allowed_devices": "all",
+    "voice_pin": null
+  },
+  "ayush": {
+    "name": "Ayush",
+    "role": "child",
+    "age_group": "10-12",
+    "allowed_devices": ["lights", "media"],
+    "blocked_devices": ["locks", "garage", "alarm", "cameras"],
+    "screen_time_limit_min": 120,
+    "bedtime": "21:00",
+    "voice_pin": null
+  },
+  "ahana": {
+    "name": "Ahana",
+    "role": "child",
+    "age_group": "6-9",
+    "allowed_devices": ["lights", "media"],
+    "blocked_devices": ["locks", "garage", "alarm", "cameras"],
+    "screen_time_limit_min": 90,
+    "bedtime": "20:00",
+    "voice_pin": null
+  }
+}
