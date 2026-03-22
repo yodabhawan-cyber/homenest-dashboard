@@ -11,6 +11,12 @@ export default defineConfig({
     fs: {
       // Allow serving files from parent directory (config folder)
       allow: ['..']
+    },
+    proxy: {
+      '/api/setup': {
+        target: 'http://localhost:3201',
+        changeOrigin: true
+      }
     }
   },
   resolve: {

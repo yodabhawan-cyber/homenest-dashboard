@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Home from './pages/Home';
 import Shopping from './pages/Shopping';
 import Chores from './pages/Chores';
@@ -12,6 +12,7 @@ import ScreenTime from './pages/ScreenTime';
 import SmartHome from './pages/SmartHome';
 import Cameras from './pages/Cameras';
 import Rewards from './pages/Rewards';
+import Setup from './pages/Setup';
 
 function Layout({ children }) {
   const location = useLocation();
@@ -132,6 +133,7 @@ function App() {
     <Router>
       <Layout>
         <Routes>
+          <Route path="/setup" element={<Setup />} />
           <Route path="/" element={<Home />} />
           <Route path="/shopping" element={<Shopping />} />
           <Route path="/chores" element={<Chores />} />
