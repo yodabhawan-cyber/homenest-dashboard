@@ -82,37 +82,64 @@ def switch_profile(text):
     """Handle profile switching. Returns (switched, message)."""
     global current_profile, guest_mode
     t = text.lower()
-
-    # "this is snehal" / "switch to parent mode"
-    if re.search(r'\bthis\s+is\s+snehal\b|\bparent\s+mode\b|\bdad\s+mode\b', t):
-        current_profile = {**DEFAULT_PROFILES["snehal"], "id": "snehal"}
-        guest_mode = False
-        return True, "Hi Snehal! Switched to parent mode."
-
-    # "this is ayush [PIN]"
-    m = re.search(r'\bthis\s+is\s+(ayush|ahana)\b.*?(\d+)?', t)
+    
+    # Load profiles from JSON
+    profiles = load_profiles()
+    
+    # Try to match "this is [name]" for any profile
+    m = re.search(r'\bthis\s+is\s+(\w+)', t)
     if m:
-        name = m.group(1)
-        pin = m.group(2) or ""
-        # Verify PIN
-        digits_in_text = re.findall(r'\d', t)
-        pin_attempt = "".join(digits_in_text)
-        expected = VOICE_PINS.get(name, "")
-        if expected and pin_attempt != expected:
-            return True, f"Hmm, that PIN doesn't match. Try again!"
-        current_profile = {**DEFAULT_PROFILES[name], "id": name}
-        guest_mode = False
-        return True, f"Hey {name.capitalize()}! I've switched to your profile."
-
-    # "guest mode" / "enable guest mode"
+        name_match = m.group(1).lower()
+        
+        # Find matching profile
+        for profile_id, prof in profiles.items():
+            if profile_id == name_match or prof.get("name", "").lower() == name_match:
+                # Check if PIN is required
+                if "pin" in prof and prof["pin"]:
+                    digits_in_text = re.findall(r'\d', t)
+                    pin_attempt = "".join(digits_in_text)
+                    
+                    if pin_attempt != prof["pin"]:
+                        return True, f"Hmm, that PIN doesn't match. Try again!"
+                
+                # Switch to this profile
+                current_profile = {**prof, "id": profile_id}
+                guest_mode = (prof.get("role") == "guest")
+                
+                greeting = f"Hi {prof['name']}!"
+                if prof.get("role") == "child":
+                    greeting += " Ready to help!"
+                elif prof.get("role") == "guest":
+                    greeting += " Guest mode enabled."
+                else:
+                    greeting += " Switched to your profile."
+                
+                return True, greeting
+    
+    # Fallback to parent/guest mode keywords
+    if re.search(r'\bparent\s+mode\b|\badult\s+mode\b', t):
+        # Find first parent profile
+        for profile_id, prof in profiles.items():
+            if prof.get("role") == "parent":
+                current_profile = {**prof, "id": profile_id}
+                guest_mode = False
+                return True, f"Switched to {prof['name']}'s profile."
+    
     if re.search(r'\bguest\s+mode\b', t):
         if "off" in t or "disable" in t:
             guest_mode = False
-            current_profile = {**DEFAULT_PROFILES["default"], "id": "default"}
+            current_profile = {"name": "Family", "role": "parent", "age_group": "adult", "id": "default"}
             return True, "Guest mode disabled. Back to family mode."
+        # Find guest profile
+        for profile_id, prof in profiles.items():
+            if prof.get("role") == "guest":
+                current_profile = {**prof, "id": profile_id}
+                guest_mode = True
+                return True, "Guest mode enabled. Welcome!"
+        # Fallback if no guest profile defined
         guest_mode = True
-        current_profile = {**DEFAULT_PROFILES["guest"], "id": "guest"}
-        return True, "Guest mode enabled. I'll keep things limited and private."
+        current_profile = {"name": "Guest", "role": "guest", "age_group": "adult", "id": "guest"}
+        return True, "Guest mode enabled. Welcome!"
 
     return False, ""
 
