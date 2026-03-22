@@ -24,9 +24,21 @@ Voice PE Speaker → HA (wake word) → Mac mini STT (Whisper)
                                    Voice PE Speaker
 ```
 
+## ✨ Key Feature: Per-Person AI Agents
+
+Each family member gets their **own personalized AI agent** that:
+- **Learns individually** — Remembers YOUR preferences, patterns, and context
+- **Adapts personality** — Kids get playful & educational, adults get professional & efficient
+- **Protects privacy** — Kids can't access parent emails, siblings can't snoop
+- **Matches voice** — Different voice per person (Charlotte for kids, Piper for adults)
+- **Persists memory** — Each agent builds its own long-term memory over time
+
+**Example:** When Ayush asks "Check my email" → Routes to Ayush's agent → Only shows school emails (kid-safe filtered). When Dad asks the same thing → Routes to Dad's agent → Full work email access.
+
 ## Features
 
 ### Voice Features (via Proxy v4)
+- **Per-person AI agents** — Each family member has their own AI with unique personality & memory
 - **5-tier smart routing** — instant for home/family, local LLM for general, cloud for complex
 - **Voice profile switching** — "This is Ayush 1-2-3" with PIN verification
 - **Morning briefing** — "Good morning" → weather + chores + schedule

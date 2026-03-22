@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.homenest.voice-proxy</string>
+    
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/python3</string>
+        <string>INSTALL_PATH/proxy_v4.py</string>
+    </array>
+    
+    <key>WorkingDirectory</key>
+    <string>INSTALL_PATH</string>
+    
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
+    
+    <key>StandardOutPath</key>
+    <string>INSTALL_PATH/logs/voice-proxy.log</string>
+    
+    <key>StandardErrorPath</key>
+    <string>INSTALL_PATH/logs/voice-proxy-error.log</string>
+    
+    <key>RunAtLoad</key>
+    <true/>
+    
+    <key>KeepAlive</key>
+    <true/>
+    
+    <key>ProcessType</key>
+    <string>Interactive</string>
+</dict>
+</plist>

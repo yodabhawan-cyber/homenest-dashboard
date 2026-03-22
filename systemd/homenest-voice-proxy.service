@@ -1,0 +1,20 @@
+[Unit]
+Description=HomeNest Voice Proxy
+After=network.target
+
+[Service]
+Type=simple
+User=homenest
+WorkingDirectory=INSTALL_PATH
+ExecStart=/usr/bin/python3 INSTALL_PATH/proxy_v4.py
+Restart=always
+RestartSec=10
+StandardOutput=append:INSTALL_PATH/logs/voice-proxy.log
+StandardError=append:INSTALL_PATH/logs/voice-proxy-error.log
+
+# Environment
+Environment="PATH=/usr/local/bin:/usr/bin:/bin"
+EnvironmentFile=INSTALL_PATH/.env
+
+[Install]
+WantedBy=multi-user.target

@@ -567,10 +567,30 @@ def call_openai_direct(text, system_prompt=None):
         result = json.loads(resp.read())
         return result.get("choices", [{}])[0].get("message", {}).get("content", "Sorry, couldn't process that.")
 
-def call_openclaw(messages):
+def call_openclaw(messages, profile=None):
+    """Call OpenClaw - routes to personal agent if profile has agent_workspace"""
+    # Determine which agent to use
+    agent_id = "main"  # Default
+    
+    if profile and isinstance(profile, dict):
+        # If profile has agent_workspace, use the agent_id
+        if "agent_workspace" in profile and profile["agent_workspace"]:
+            # Extract agent ID from workspace path (e.g., "agents/snehal/workspace" → "snehal")
+            workspace_path = profile["agent_workspace"]
+            agent_id = workspace_path.split("/")[1] if "/" in workspace_path else profile.get("id", "main")
+        elif "id" in profile and profile["id"] not in ["default", "guest"]:
+            # Use profile ID as agent ID
+            agent_id = profile["id"]
+    
+    print(f"  [AGENT] Routing to agent: {agent_id}", flush=True)
+    
     req = urllib.request.Request(
         OPENCLAW_URL,
-        data=json.dumps({"model": "openclaw:main", "messages": messages, "user": "ha-voice-homenest"}).encode(),
+        data=json.dumps({
+            "model": f"openclaw:{agent_id}", 
+            "messages": messages, 
+            "user": f"ha-voice-{agent_id}"
+        }).encode(),
         headers={"Content-Type": "application/json", "Authorization": f"Bearer {OPENCLAW_TOKEN}"},
     )
     with urllib.request.urlopen(req, timeout=120) as resp:
@@ -756,7 +776,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
                 elif route == 'agent':
                     print(f"[AGENT] {user_text[:80]}", flush=True)
-                    content = call_openclaw(messages)
+                    content = call_openclaw(messages, current_profile)
 
                 else:
                     content = call_local_llm(user_text, system_prompt)
